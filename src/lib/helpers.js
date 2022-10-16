@@ -13,9 +13,9 @@ export const defaultHeader = {
 export function saveConfig(appConfig) {
     let conf = {...appConfig}
     console.log('save:', conf)
-    if(conf.isSaving)    
-      return false
-    conf.isSaving = true
+    //if(conf.isSaving)    
+    //  return false
+    //conf.isSaving = true
     const urlAPIConfig = localStorage.getItem("urlAPIConfig") || "http://localhost:9080/apiserver/config";
     (async () => {
         const rawResponse = await fetch(urlAPIConfig, {
