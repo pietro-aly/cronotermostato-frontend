@@ -91,7 +91,10 @@ const Dashboard = ({name, climateSensors, temperatureSensors, appConfig, setAppC
         //console.log('in save:', conf)
         //console.log(conf.zones[appConfig.currentTab].weekSetpoint[appConfig.currentDayTab][index])
         setAppConfig(conf)
-        conf.isSaving = !saveConfig(conf)
+        let isSaving = !saveConfig(conf)      
+        console.log('isSaving', isSaving)
+        conf.isSaving = isSaving
+        appConfig.isSaving = isSaving
         setAppConfig(conf)
      };
      
