@@ -18,6 +18,8 @@ import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf'
 import WeekendIcon from '@mui/icons-material/Weekend'
 import ForestIcon from '@mui/icons-material/Forest'
 import NaturePeopleIcon from '@mui/icons-material/NaturePeople'
+import InfoIcon from '@mui/icons-material/Info'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import Checkbox from '@mui/material/Checkbox';
@@ -340,6 +342,20 @@ const Dashboard = ({name, climateSensors, temperatureSensors, appConfig, setAppC
         conf.zones[appConfig.currentTab].weekSetpoint[conf.currentDayTab].push({value: val, setpoint: 1}) 
         
         localStorage.setItem("appConfig", JSON.stringify(conf));
+        updateWeekSetpointTimeslice()
+        setAppConfig(conf)
+        save()
+        setWkMaxValue(24)      
+    }
+
+    const delTimeSlider = (index) => {        
+        let conf = {...appConfig}
+        const tmp = conf.zones[appConfig.currentTab].weekSetpoint[conf.currentDayTab]
+        const timeslices = conf.zones[appConfig.currentTab].weekSetpoint[appConfig.currentDayTab]        
+        conf.zones[appConfig.currentTab].weekSetpoint[conf.currentDayTab].splice(index, 1)
+        console.log(conf.zones[appConfig.currentTab].weekSetpoint[conf.currentDayTab])
+        localStorage.setItem("appConfig", JSON.stringify(conf));
+        updateWeekSetpointTimeslice()
         setAppConfig(conf)
         save()
         setWkMaxValue(24)      
@@ -366,14 +382,6 @@ const Dashboard = ({name, climateSensors, temperatureSensors, appConfig, setAppC
                         return (
                             <TabPanel value={data.key} key={data.key}>
                                 <Container>
-                                    <Box sx={{ m:5, p: 2, border: '1px dashed grey' }}>
-                                    La temperatura di default è                                                                                                    
-                                        <IconButton size="small">
-                                            {setpointIcon[2]}
-                                        </IconButton>
-                                    </Box>
-                                    
-                                    
                                     <Box>
                                     {appConfig.zones[appConfig.currentTab].weekSetpoint[data.key].map((wk, index) => {
                                         //const setpoint = setpointLegend[appConfig.zones[appConfig.currentTab].setpointTimeslice[h]]    
@@ -382,10 +390,10 @@ const Dashboard = ({name, climateSensors, temperatureSensors, appConfig, setAppC
                                         // return <Tab disabled={appConfig.vacationMode} icon={<span>{icon}<span><br></br>{setpoint}<br></br>{setpointDegree}</span></span>} iconPosition="bottom" label={h} wrapped key={h} value={h} onClick={handleSettingsOpen} />
                                         return (
                                             <Grid container rowSpacing={6} spacing={1} justifyContent="center" key={index}>                                               
-                                                <Grid item xs={2}>                                                                                                    
+                                                <Grid item xs={1}>                                                                                                    
                                                     <IconButton onClick={() => handleSetpointToggle(index)} aria-label="delete" size="small">
                                                         {icon}
-                                                    </IconButton>
+                                                    </IconButton>                                                    
                                                 </Grid>
                                                 <Grid item xs={10}>
                                                 <TimeSlider 
@@ -394,18 +402,33 @@ const Dashboard = ({name, climateSensors, temperatureSensors, appConfig, setAppC
                                                 max={24} 
                                                 value={wk.value} 
                                                 onValueChange={handleTimeChange} 
-                                                disabled={appConfig.vacationMode} />                                                    
+                                                disabled={appConfig.vacationMode} />
                                                 </Grid>
+                                                <Grid item xs={1}>
+                                                <IconButton onClick={() => delTimeSlider(index)} >
+                                                    <RemoveCircleIcon color="primary" />
+                                                </IconButton>
+                                                </Grid>                                                                                                
                                             </Grid>
                                         )}
                                     )}
                                     <Button disabled={wkMaxValue === 24} variant="contained" size="small" onClick={addTimeSlider}>+</Button>
-                                    </Box>                                   
+                                    </Box>                               
                                 </Container>
-                            </TabPanel>                                
+                            </TabPanel>
                         );
                     })}                            
-                </TabContext>                               
+                </TabContext>
+                <Box sx={{ m:5, p: 2}}>
+                La temperatura di default è                                                                                                    
+                    <IconButton size="small">
+                        {setpointIcon[2]}
+                    </IconButton>
+                    <Tooltip title="Il setpoint assegnato agli intervalli non impostati">
+                        <InfoIcon fontSize="small" />
+                    </Tooltip>
+                </Box>
+                                    
                 <Box sx={{ width: '600px', bgcolor: 'background.paper' }}>
                    
                 </Box>
