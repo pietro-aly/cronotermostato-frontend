@@ -16,6 +16,43 @@
       "color": "#FFA601"
     }
   },
+  "days":{
+    "lun":{
+      "key":"lun",
+      "name": "Lunedì",
+      "shortName": "Lun"
+    },
+    "mar":{
+      "key":"mar",
+      "name": "Martedì",
+      "shortName": "Mar"
+    },
+    "mer":{
+      "key":"mer",
+      "name": "Mercoledì",
+      "shortName": "Mer"
+    },
+    "gio":{
+      "key":"gio",
+      "name": "Giovedì",
+      "shortName": "Gio"
+    },
+    "ven":{
+      "key":"ven",
+      "name": "Venerdì",
+      "shortName": "Ven"
+    },
+    "sab":{
+      "key":"sab",
+      "name": "Sabato",
+      "shortName": "Sab"
+    },
+    "dom":{
+      "key":"dom",
+      "name": "Domentica",
+      "shortName": "Dom"
+    }
+  },
   "templateZone":{
     "zoneName": "Template",
     "workMode":{
