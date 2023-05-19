@@ -15,7 +15,16 @@
     width: 12px;
     height: 100%;
     border-radius: 4px;
-    background-color: #37474f;
+}
+
+/* REGOLA PER CAMBIRE IL COLORE */
+/* tutti (primo) */
+#range-slider-bt > .range-slider__thumb {
+  background-color: var(--colorFirstThumb, #37474f);
+}
+/* tutti tranne il primo (secondo)*/
+#range-slider-bt > .range-slider__thumb ~ .range-slider__thumb {
+  background-color: var(--colorSecondThumb, #37474f);
 }
 
 /* range */

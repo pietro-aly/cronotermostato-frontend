@@ -7,7 +7,7 @@ import EnergySavingsLeafRoundedIcon from '@mui/icons-material/EnergySavingsLeafR
 import LocalFireDepartmentRoundedIcon from '@mui/icons-material/LocalFireDepartmentRounded';
 
 
-function WorkMode({key, workMode, label, value, color, onSetPointChanged= ()=>{} }) {
+function WorkMode({workMode, label, value, color, onSetPointChanged= ()=>{} }) {
   const MIN_VALUE = 0;
   const MAX_VALUE = 30;
   
@@ -37,7 +37,6 @@ function WorkMode({key, workMode, label, value, color, onSetPointChanged= ()=>{}
 
   return (
     <Paper
-      key={key}
       variant="outlined"
       sx={{ width: "180px", height: "150px", padding: 1.5, borderRadius:5 }}
     >

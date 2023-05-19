@@ -4,8 +4,9 @@ import "react-range-slider-input/dist/style.css";
 import "./styles.css";
 
 function SliderComponent(props) {
+  const { colorFirstThumb, colorSecondThumb } = props;
   return (
-    <div style={{ "--rangeColor": props?.rangeColor }}>
+    <div style={{ "--rangeColor": props?.rangeColor, "--colorFirstThumb": colorFirstThumb, "--colorSecondThumb": colorSecondThumb}}>
       <RangeSlider id="range-slider-bt" {...props} />
     </div>
   );

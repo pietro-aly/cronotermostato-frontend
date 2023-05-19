@@ -82,7 +82,10 @@ class UserConfig {
     }
     return schedule;
   }
-
+  
+  setDailyScheduleZone(zone, day, schedule){
+    this.configZones[zone].weeklyProgramming[day].schedule = schedule;
+  }
 }
 
 
