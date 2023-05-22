@@ -1,7 +1,6 @@
 import {
   FormControl,
   IconButton,
-  InputLabel,
   MenuItem,
   Select,
   Stack,
@@ -24,7 +23,6 @@ function ConfigSetPointDialog({
   worksMode,
   workModeConfig,
 }) {
-  const [value, setValue] = React.useState([0, 10]);
 
   const getSetPointsRanges = (dailySchedule) => {
     let ranges = [];

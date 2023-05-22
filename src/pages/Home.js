@@ -3,7 +3,6 @@ import React from "react";
 import ZoneSection from "../core/components/sections/ZonesSection";
 import WeeklyProgrammingSection from "../core/components/sections/WeeklyProgrammingSection";
 import ConfigSection from "../core/components/sections/ConfigSection";
-import userSettings from "../config/userSettings.json";
 import {getUserConfig} from "../service/UserConfig";
 
 

@@ -1,4 +1,45 @@
 {
+  "device":{
+    "_device_id_1":{
+      "deviceId": "_device_id_1", 
+      "idZone": null,
+      "name":"Valvola Stanza Dario",
+      "sensor":{
+        "_entity_1_device_1":{
+          "state": "volore_stat"
+        },
+        "_entity_2_device_1":{
+          "state": "volore_stat"
+        }
+      }
+    },
+    "_device_id_2":{
+      "deviceId": "_device_id_2", 
+      "idZone": null,
+      "name":"Valvola 2",
+      "sensor":{
+        "_entity_1_device_2":{
+          "state": "volore_stat"
+        },
+        "_entity_2_device_2":{
+          "state": "volore_stat"
+        }
+      }
+    },
+    "_device_id_3":{
+      "deviceId": "_device_id_3", 
+      "idZone": "Ufficio",
+      "name":"Valvola 3",
+      "sensor":{
+        "_entity_1_device_3":{
+          "state": "volore_stat"
+        },
+        "_entity_2_device_3":{
+          "state": "volore_stat"
+        }
+      }
+    }
+  },
   "zone":{
     "Ufficio":{
       "zoneName": "Ufficio",

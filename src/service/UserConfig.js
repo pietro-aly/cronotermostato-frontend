@@ -7,11 +7,13 @@ class UserConfig {
   userConfig = null;
   zones = [];
   configZones = {}
+  devices = {};
 
   constructor(userConfigFile){
     this.userConfig = userConfigFile;
     this.zones = Object.keys(this.userConfig.zone);
     this.configZones = this.userConfig.zone
+    this.devices = userConfigFile?.device || {};
   }
 
   getUserConfig(){
@@ -85,6 +87,31 @@ class UserConfig {
   
   setDailyScheduleZone(zone, day, schedule){
     this.configZones[zone].weeklyProgramming[day].schedule = schedule;
+  }
+
+  getDeviceList(){
+    return Object.keys(this.devices).map((deviceId)=>{
+      return this.devices[deviceId]
+    })
+  }
+
+  setDevicesList(deviceList){
+    let deviceObj = {};
+    deviceList.map((device)=>{
+      deviceObj[device.deviceId] = device;
+    })
+    this.devices = deviceObj;
+  }
+
+  getZoneDevicesList(zone){
+    let zoneDevices = [];
+    let devices = this.getDeviceList();
+    devices.forEach((device)=>{
+      if(device.idZone === zone){
+        return zoneDevices.push(device);
+      }
+    })
+    return zoneDevices;
   }
 }
 
