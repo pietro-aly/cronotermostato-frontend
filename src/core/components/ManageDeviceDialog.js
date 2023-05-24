@@ -55,6 +55,7 @@ function ManageDeviceDialog({
         {draftDevices.map((deviceInfo, idx) => {
           return (
             <DeviceSettingItem
+              key={idx}
               name={deviceInfo.name}
               zone={deviceInfo?.idZone}
               currentZone={zone}

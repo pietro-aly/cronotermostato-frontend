@@ -11,7 +11,7 @@ function Device({ name, state, type, zone, variant }) {
       <Stack height={"100%"} direction={"row"} alignItems={"center"}>
         <DeviceThermostatIcon />
         <Typography variant="p" fontWeight={"bold"}>
-          {`${name} ${state ? - + " " + state : ""}`}
+          {`${name} ${state ? "- " + state : ""}`}
         </Typography>
       </Stack>
     </Paper>

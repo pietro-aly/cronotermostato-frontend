@@ -2,7 +2,7 @@ import { Divider, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 
 const SingleSection = ({ title, subTitle, rightHeader, children }) => (
-  <Stack>
+  <Stack height={'100%'}>
     <Stack direction={"row"}>
       <Stack width={"100%"}>
         <Typography variant="h6" color="text.secondary" component="div">
@@ -14,7 +14,7 @@ const SingleSection = ({ title, subTitle, rightHeader, children }) => (
       </Stack>
       {rightHeader}
     </Stack>
-    <Stack>{children}</Stack>
+    <Stack height={'100%'}>{children}</Stack>
   </Stack>
 );
 
@@ -26,7 +26,7 @@ function CardSection({
   multipleSection = null,
 }) {
   return (
-    <Paper sx={{ padding: 4, paddingTop: 4, borderRadius: 5 }}>
+    <Paper sx={{ padding: 4, paddingTop: 4, borderRadius: 5, height:'100%' }}>
       {!multipleSection && (
         <SingleSection
           title={title}
@@ -37,8 +37,8 @@ function CardSection({
       )}
       {multipleSection && (
         <>
-          <Stack direction={"row"}>
-            <Stack width={'100%'}>
+          <Stack direction={"row"} height={'100%'}>
+            <Stack width={'100%'} height={'100%'}>
               <SingleSection
                 title={multipleSection.first.title}
                 subTitle={multipleSection.first.subTitle}

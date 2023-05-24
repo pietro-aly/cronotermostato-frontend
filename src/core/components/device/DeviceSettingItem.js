@@ -6,7 +6,6 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 function DeviceSettingItem({ name, state, type, zone, currentZone, onAdd, onRemove }) {
   const canAdd = zone == null;
-  const canRemove = zone !== null && zone === currentZone;
   const canNotRemove = zone !== null && zone !== currentZone;
 
   return (

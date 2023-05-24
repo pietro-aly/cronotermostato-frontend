@@ -1,5 +1,5 @@
-import { IconButton, Stack } from "@mui/material";
-
+import { IconButton, Stack, Typography } from "@mui/material";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import AddIcon from "@mui/icons-material/Add";
 import React from "react";
 import CardSection from "../common/CardSection";
@@ -15,8 +15,6 @@ function ConfigSection({ style, zone, tempUpdateAll }) {
   const workModeConfig = ChronoSettings.workMode;
   const deviceList = UserConfig.getDeviceList();
   const zoneDevicesList = UserConfig.getZoneDevicesList(zone);
-
-  console.log(deviceList, zoneDevicesList);
 
   const [openManageDevice, setOpenManageDevice] = React.useState(false);
 
@@ -47,10 +45,28 @@ function ConfigSection({ style, zone, tempUpdateAll }) {
     </Stack>
   );
   const DeviceConfiguration = () => (
-    <Stack mt={3} direction={"row"} spacing={2}>
-      {zoneDevicesList.map((device) => (
-        <Device name={device.name} state={"26°C"} />
-      ))}
+    <Stack direction={"row"} spacing={2} height={"100%"}>
+      {
+        zoneDevicesList.length > 0 && 
+        <Stack mt={3}>
+          {zoneDevicesList.map((device, idx) => (
+            <Device key={idx} name={device.name} state={"26°C"} />
+          ))}
+        </Stack>
+      }
+      {zoneDevicesList.length === 0 && (
+        <Stack
+          alignItems={"center"}
+          justifyContent={"center"}
+          width={"100%"}
+          height={"100%"}
+        >
+          <WarningAmberIcon  fontSize="large" sx={{ marginBottom: "10px", color:"#FBC02D" }} />
+          <Typography variant="subtitle1" color={"#FBC02D"}>
+            Nessun device connesso, premere + per aggiungerne uno
+          </Typography>
+        </Stack>
+      )}
     </Stack>
   );
 
