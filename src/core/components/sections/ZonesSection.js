@@ -2,8 +2,11 @@ import { Button, IconButton, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import React from "react";
 import AddZoneDialog from "../AddZoneDialog";
+import { selectZone } from "../../../store/app/actions";
+import { connect } from "react-redux";
+import { createZone } from "../../../store/chrono/actions";
 
-function ZoneSection({ zones, selected, onSelected, onCreate }) {
+function ZoneSection({ zones, idZoneSelected, selectZone, createZone }) {
   const [openAddDialog, setOpenAddDialog] = React.useState(false);
 
   const handleOpenDialog = () => {
@@ -14,12 +17,16 @@ function ZoneSection({ zones, selected, onSelected, onCreate }) {
     setOpenAddDialog(false);
   };
 
-  const ZoneBtn = ({ name, selected }) => (
+  const handlerSelectedZone = (idZone) => {
+    selectZone(idZone);
+  }
+
+  const ZoneBtn = ({ idZone, selected }) => (
     <Button
-      onClick={() => onSelected(name)}
+      onClick={() => handlerSelectedZone(idZone)}
       variant={selected ? "contained" : "text"}
     >
-      {name}
+      {idZone}
     </Button>
   );
 
@@ -27,9 +34,9 @@ function ZoneSection({ zones, selected, onSelected, onCreate }) {
     <>
       <Stack spacing={3}>
         <Stack direction={"row"} spacing={2}>
-          {zones?.map((name, idx) => {
+          {zones?.map((idZone, idx) => {
             return (
-              <ZoneBtn key={idx} name={name} selected={name === selected} />
+              <ZoneBtn key={idx} idZone={idZone} selected={idZone === idZoneSelected} />
             );
           })}
           <Stack>
@@ -52,11 +59,24 @@ function ZoneSection({ zones, selected, onSelected, onCreate }) {
           }
           open={openAddDialog}
           onClose={handleCloseDialog}
-          onCreate={onCreate}
+          onCreate={createZone}
         />
       )}
     </>
   );
 }
 
-export default ZoneSection;
+const mapStateToProps = ({ Chrono, App }) => ({
+  zones: Chrono.zones,
+  idZoneSelected: App.idZoneSelected
+});
+
+const mapDispatchToProps = dispatch => ({
+  selectZone: (idZone) => dispatch(selectZone(idZone)),
+  createZone: (name) => dispatch(createZone(name))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ZoneSection)

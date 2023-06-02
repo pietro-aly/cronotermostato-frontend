@@ -1,8 +1,9 @@
-import Home from './pages/Home';
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import { orange } from '@mui/material/colors';
-import { initUserConfig } from './service/UserConfig';
-import userSettings from "./config/userSettings.json";
+/* Redux */
+import { Provider } from "react-redux";
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { orange } from "@mui/material/colors";
+import store from "./store"
+import Startup from "./Startup";
 
 const theme = createTheme({
   status: {
@@ -10,18 +11,16 @@ const theme = createTheme({
   },
 });
 
-
-
 function App() {
-  initUserConfig(userSettings);
 
-  //TODO: STARTUP PROCESS
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline>
-        <Home/>
-      </CssBaseline>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline>
+          <Startup />
+        </CssBaseline>
+      </ThemeProvider>
+    </Provider>
   );
 }
 

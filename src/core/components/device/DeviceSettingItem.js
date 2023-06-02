@@ -6,7 +6,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 
 function DeviceSettingItem({ name, state, type, zone, currentZone, onAdd, onRemove }) {
   const canAdd = zone == null;
-  const canNotRemove = zone !== null && zone !== currentZone;
+  const canNotRemove = zone != null && zone !== currentZone;
 
   return (
     <Paper variant="outlined" sx={{ height:'70px', marginBottom: 2, borderRadius: 2.5 }}>
@@ -18,14 +18,14 @@ function DeviceSettingItem({ name, state, type, zone, currentZone, onAdd, onRemo
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Stack direction={'row'} alignItems={'center'} width={'25%'}>
+        <Stack direction={'row'} alignItems={'center'} width={'40%'}>
           <DeviceThermostatIcon />
           <Stack marginLeft={2}>
             <Typography variant="p" >
               {`Nome dispotivo:`}
             </Typography>
             <Typography variant="p" fontWeight={"bold"}>
-              {`${name} ${state ? -+" " + state : ""}`}
+              {`${name} ${state ? ` - ${state}°C` : ""}`}
             </Typography>
           </Stack>
         </Stack>

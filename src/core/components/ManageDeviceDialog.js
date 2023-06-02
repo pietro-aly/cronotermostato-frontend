@@ -13,7 +13,7 @@ import DeviceSettingItem from "./device/DeviceSettingItem";
 function ManageDeviceDialog({
   title,
   description,
-  zone,
+  configZone,
   devices,
   open,
   onClose,
@@ -33,7 +33,7 @@ function ManageDeviceDialog({
 
   const handleAdd = (idx)=>{
     let _draftDevices = JSON.parse(JSON.stringify(draftDevices));
-    _draftDevices[idx].idZone = zone;
+    _draftDevices[idx].idZone = configZone.idZone;
     setDraftDevices(_draftDevices)
   }
 
@@ -58,7 +58,8 @@ function ManageDeviceDialog({
               key={idx}
               name={deviceInfo.name}
               zone={deviceInfo?.idZone}
-              currentZone={zone}
+              currentZone={configZone?.idZone}
+              state={deviceInfo?.stateInfo?.currentTemperature}
               variant="settings"
               onAdd={()=>handleAdd(idx)}
               onRemove={()=>handleRemove(idx)}

@@ -6,39 +6,45 @@ import WeeklyChart from "../WeeklyChart";
 import { getUserConfig } from "../../../service/UserConfig";
 import ChronoSettings from "../../../config/chronothermostat.json";
 import ConfigSetPointDialog from "../ConfigSetPointDialog";
+import { connect } from "react-redux";
+import { updateDailyScehdule } from "../../../store/chrono/actions";
 
-function WeeklyProgrammingSection({ style, zone }) {
-  const UserConfig = getUserConfig();
-  const workMode = UserConfig.getWorkModeZone(zone);
-  const daysConfig = ChronoSettings.days;
-  const workModeConfig = ChronoSettings.workMode;
+const getDailyScheduleZone = (configZone, selectedDay) => {
+  if (
+    configZone?.weeklyProgramming &&
+    configZone?.weeklyProgramming[selectedDay]
+  ) {
+    return configZone?.weeklyProgramming[selectedDay]?.schedule;
+  }
+  return null;
+};
 
-  const [selectedDay, setSelectedDay] = React.useState(daysConfig["lun"].key);
+function WeeklyProgrammingSection({ style, idZoneSelected, configZone, chronoConfig, updateDailyScehdule }) {
+  const workMode = configZone?.workMode;
+  const daysConfig = chronoConfig.days;
+  const workModeConfig = chronoConfig.workMode;
+
+  const [selectedDay, setSelectedDay] = React.useState(daysConfig["lun"].id);
   const [dailySchedule, setDailySchedule] = React.useState(
-    UserConfig.getDailyScheduleZone(zone, selectedDay, true)
+    getDailyScheduleZone(configZone, selectedDay)
   );
   const [openConfigDialog, setOpenConfigDialog] = React.useState(false);
 
   React.useEffect(() => {
     loadDailySchedule();
-  }, [selectedDay, zone]);
+  }, [selectedDay, configZone]);
 
   const changeSelectedDay = (day) => {
     setSelectedDay(day);
   };
 
   const loadDailySchedule = () => {
-    const _dailyScehdule = UserConfig.getDailyScheduleZone(
-      zone,
-      selectedDay,
-      true
-    );
+    const _dailyScehdule = getDailyScheduleZone(configZone, selectedDay);
     setDailySchedule(_dailyScehdule);
   };
 
   const handleSaveConfiguration = (newDailySchedule) => {
-    setDailySchedule(newDailySchedule);
-    UserConfig.setDailyScheduleZone(zone, selectedDay, newDailySchedule);
+    updateDailyScehdule(idZoneSelected, selectedDay, newDailySchedule)
   };
 
   const RightHeaderJSX = () => (
@@ -123,4 +129,17 @@ function WeeklyProgrammingSection({ style, zone }) {
   );
 }
 
-export default WeeklyProgrammingSection;
+const mapStateToProps = ({ Chrono, App }) => ({
+  chronoConfig: Chrono.chronoConfig,
+  idZoneSelected: App.idZoneSelected,
+  configZone: App.selectedZone,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateDailyScehdule: (idZone, idDay, schedule) => dispatch(updateDailyScehdule(idZone, idDay, schedule)),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WeeklyProgrammingSection);
