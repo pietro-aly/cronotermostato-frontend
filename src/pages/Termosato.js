@@ -70,7 +70,7 @@ const Termostato = ({ selectedZone, chronoConfig }) => {
     <Stack spacing={2} justifyContent="center" alignItems="center" style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 700, color: "gray" }}>
       <Typography>Data e ora attuali:</Typography>
       <Typography variant="h4" style={{ color: "black", fontWeight: "bold" }}>{currentDateTime}</Typography>
-
+   
       {currentWorkMode && (
         <>
           <Typography style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 700, color: "gray" }}>Stato attuale:</Typography>
