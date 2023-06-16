@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 
 
 function Home() {
-  
   return (
     <Stack sx={{ backgroundColor: "#F2F2F6", height: "100vh", padding: 5 }}>
       <ZoneSection />
@@ -17,9 +16,7 @@ function Home() {
   );
 }
 
-
 const mapStateToProps = ({ Chrono }) => ({});
-
 const mapDispatchToProps = dispatch => ({})
 
 export default connect(
