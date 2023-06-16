@@ -8,7 +8,7 @@ import ChronoSettings from "../../../config/chronothermostat.json";
 import ConfigSetPointDialog from "../ConfigSetPointDialog";
 import { connect } from "react-redux";
 import { updateDailyScehdule } from "../../../store/chrono/actions";
-
+import Termosato from "../../../pages/Termosato";
 const getDailyScheduleZone = (configZone, selectedDay) => {
   if (
     configZone?.weeklyProgramming &&
@@ -39,12 +39,12 @@ function WeeklyProgrammingSection({ style, idZoneSelected, configZone, chronoCon
   };
 
   const loadDailySchedule = () => {
-    const _dailyScehdule = getDailyScheduleZone(configZone, selectedDay);
-    setDailySchedule(_dailyScehdule);
+    const _dailySchedule = getDailyScheduleZone(configZone, selectedDay);
+    setDailySchedule(_dailySchedule);
   };
 
   const handleSaveConfiguration = (newDailySchedule) => {
-    updateDailyScehdule(idZoneSelected, selectedDay, newDailySchedule)
+    updateDailyScehdule(idZoneSelected, selectedDay, newDailySchedule);
   };
 
   const RightHeaderJSX = () => (
@@ -73,12 +73,16 @@ function WeeklyProgrammingSection({ style, idZoneSelected, configZone, chronoCon
   );
 
   const GroupWeeklyButton = () => {
+    if (!daysConfig) {
+      return null; // or handle the case when daysConfig is undefined
+    }
+
     return (
       <Stack
         direction={"row"}
         sx={{ padding: 1, backgroundColor: "#F2F2F6", borderRadius: 4 }}
       >
-        {Object.keys(daysConfig)?.map((day, idx) => (
+        {Object.keys(daysConfig).map((day, idx) => (
           <Button
             key={idx}
             disableElevation={true}
@@ -95,21 +99,34 @@ function WeeklyProgrammingSection({ style, idZoneSelected, configZone, chronoCon
     );
   };
 
+  const multipleSection = {
+    first: {
+    
+      title: "Cronotermostato",
+      subTitle: "Programmazione Settimanale",
+      component: (
+        <Stack mt={5} height={370} width={"100%"}>
+          <WeeklyChart
+            dailySchedule={dailySchedule}
+            workModeConfig={workModeConfig}
+          />
+        </Stack>
+      ),
+      rightHeader: <RightHeaderJSX />,
+      resizable: true,
+    },
+    second: {
+    
+      component: <Termosato />,
+      width: '40%',
+      resizable: true,
+    },
+  };
+
   return (
     <>
       <Stack sx={{ ...style }}>
-        <CardSection
-          title="Cronotermostato"
-          subTitle={"Programmazione Settimanale"}
-          rightHeader={RightHeaderJSX()}
-        >
-          <Stack mt={5} height={370} width={"100%"}>
-            <WeeklyChart
-              dailySchedule={dailySchedule}
-              workModeConfig={workModeConfig}
-            />
-          </Stack>
-        </CardSection>
+        <CardSection multipleSection={multipleSection} />
       </Stack>
       {openConfigDialog && (
         <ConfigSetPointDialog
@@ -135,9 +152,9 @@ const mapStateToProps = ({ Chrono, App }) => ({
   configZone: App.selectedZone,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateDailyScehdule: (idZone, idDay, schedule) => dispatch(updateDailyScehdule(idZone, idDay, schedule)),
-})
+});
 
 export default connect(
   mapStateToProps,
