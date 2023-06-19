@@ -9,26 +9,36 @@ import ManageDeviceDialog from "../ManageDeviceDialog";
 import { connect } from "react-redux";
 import { updateWorkMode, updateZoneDevices } from "../../../store/chrono/actions";
 
-
 const createDeviceList = (configZones, deviceRegistry) => {
-  Object.values(configZones).map((zone)=>
-    zone?.devicesAssigned?.map((idDevice)=>
-      deviceRegistry[idDevice].idZone = zone.idZone
+  Object.values(configZones).map((zone) =>
+    zone?.devicesAssigned?.map((idDevice) =>
+      (deviceRegistry[idDevice].idZone = zone.idZone)
     )
-  )
+  );
   return Object.values(deviceRegistry);
-}
+};
 
 const getDevicesInfo = (idsDevices, deviceRegistry) => {
   let devicesInfo = idsDevices?.map((idDevice) => deviceRegistry[idDevice]);
   return devicesInfo;
-}
+};
 
-
-function ConfigSection({style, idZoneSelected, configZones, configZone, chronoConfig, deviceRegistry, updateWorkMode, updateZoneDevices}) {
+function ConfigSection({
+  style,
+  idZoneSelected,
+  configZones,
+  configZone,
+  chronoConfig,
+  deviceRegistry,
+  updateWorkMode,
+  updateZoneDevices,
+}) {
   const workMode = configZone?.workMode;
   const zoneName = configZone?.zoneName;
-  const zoneDevicesList = getDevicesInfo(configZone?.devicesAssigned, deviceRegistry);
+  const zoneDevicesList = getDevicesInfo(
+    configZone?.devicesAssigned,
+    deviceRegistry
+  );
   const deviceList = createDeviceList(configZones, deviceRegistry);
   const workModeConfig = chronoConfig.workMode;
 
@@ -40,15 +50,15 @@ function ConfigSection({style, idZoneSelected, configZones, configZone, chronoCo
 
   const handleNewDeviceList = (newDeviceList) => {
     const mapZoneDevices = {};
-    Object.values(configZones).map((configZone)=>{
+    Object.values(configZones).map((configZone) => {
       mapZoneDevices[configZone.idZone] = [];
     });
-    newDeviceList?.map((deviceInfo)=>{
-      if(deviceInfo?.idZone){
+    newDeviceList?.map((deviceInfo) => {
+      if (deviceInfo?.idZone) {
         mapZoneDevices[deviceInfo?.idZone].push(deviceInfo?.idDevice);
       }
     });
-    updateZoneDevices(idZoneSelected, mapZoneDevices)
+    updateZoneDevices(idZoneSelected, mapZoneDevices);
   };
 
   const WorkModeConfiguration = () => (
@@ -67,16 +77,20 @@ function ConfigSection({style, idZoneSelected, configZones, configZone, chronoCo
       ))}
     </Stack>
   );
+
   const DeviceConfiguration = () => (
     <Stack direction={"row"} spacing={2} height={"100%"}>
-      {
-        zoneDevicesList.length > 0 && 
-        <Stack mt={3} direction={'row'} flexWrap={"wrap"}>
+      {zoneDevicesList.length > 0 && (
+        <Stack mt={3} direction={"row"} flexWrap={"wrap"}>
           {zoneDevicesList.map((device, idx) => (
-            <Device key={idx} name={device.name} state={device?.stateInfo?.currentTemperature} />
+            <Device
+              key={idx}
+              name={device.name}
+              state={device?.stateInfo?.currentTemperature}
+            />
           ))}
         </Stack>
-      }
+      )}
       {zoneDevicesList.length === 0 && (
         <Stack
           alignItems={"center"}
@@ -84,7 +98,10 @@ function ConfigSection({style, idZoneSelected, configZones, configZone, chronoCo
           width={"100%"}
           height={"100%"}
         >
-          <WarningAmberIcon  fontSize="large" sx={{ marginBottom: "10px", color:"#FBC02D" }} />
+          <WarningAmberIcon
+            fontSize="large"
+            sx={{ marginBottom: "10px", color: "#FBC02D" }}
+          />
           <Typography variant="subtitle1" color={"#FBC02D"}>
             Nessun device connesso, premere + per aggiungerne uno
           </Typography>
@@ -117,10 +134,12 @@ function ConfigSection({style, idZoneSelected, configZones, configZone, chronoCo
   );
 
   const multipleSection = {
+  
     first: {
       title: "Configurazione",
       subTitle: "Modalità di funzionamento",
       component: <WorkModeConfiguration />,
+      
     },
     second: {
       title: "Configurazione",
@@ -163,12 +182,11 @@ const mapStateToProps = ({ Chrono, App }) => ({
   configZone: App.selectedZone,
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateWorkMode: (idZone, idWorkMode, setPoint) => dispatch(updateWorkMode(idZone, idWorkMode, setPoint)),
-  updateZoneDevices: (idZone, mapZoneDevices) => dispatch(updateZoneDevices(idZone, mapZoneDevices)),
-})
+const mapDispatchToProps = (dispatch) => ({
+  updateWorkMode: (idZone, idWorkMode, setPoint) =>
+    dispatch(updateWorkMode(idZone, idWorkMode, setPoint)),
+  updateZoneDevices: (idZone, mapZoneDevices) =>
+    dispatch(updateZoneDevices(idZone, mapZoneDevices)),
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ConfigSection)
+export default connect(mapStateToProps, mapDispatchToProps)(ConfigSection);

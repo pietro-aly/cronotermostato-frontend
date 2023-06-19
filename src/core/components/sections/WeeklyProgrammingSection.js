@@ -9,6 +9,7 @@ import ConfigSetPointDialog from "../ConfigSetPointDialog";
 import { connect } from "react-redux";
 import { updateDailyScehdule } from "../../../store/chrono/actions";
 import Termosato from "../../../pages/Termosato";
+
 const getDailyScheduleZone = (configZone, selectedDay) => {
   if (
     configZone?.weeklyProgramming &&
@@ -19,12 +20,25 @@ const getDailyScheduleZone = (configZone, selectedDay) => {
   return null;
 };
 
-function WeeklyProgrammingSection({ style, idZoneSelected, configZone, chronoConfig, updateDailyScehdule }) {
+function WeeklyProgrammingSection({
+  style,
+  idZoneSelected,
+  configZone,
+  chronoConfig,
+  updateDailyScehdule,
+}) {
   const workMode = configZone?.workMode;
   const daysConfig = chronoConfig.days;
   const workModeConfig = chronoConfig.workMode;
 
-  const [selectedDay, setSelectedDay] = React.useState(daysConfig["lun"].id);
+  const currentDay = () => {
+    const currentDate = new Date();
+    const dayIndex = currentDate.getDay();
+    const days = Object.keys(daysConfig);
+    return days[dayIndex - 1];
+  };
+
+  const [selectedDay, setSelectedDay] = React.useState(currentDay());
   const [dailySchedule, setDailySchedule] = React.useState(
     getDailyScheduleZone(configZone, selectedDay)
   );
@@ -59,7 +73,12 @@ function WeeklyProgrammingSection({ style, idZoneSelected, configZone, chronoCon
       <Stack height={22} component={"div"}>
         <IconButton
           disableRipple={false}
-          sx={{ backgroundColor: "#F2F2F6", padding: "16px", borderRadius: 4 }}
+          sx={{
+            backgroundColor: "#F2F2F6",
+            padding: "16px",
+            marginLeft: "60px",
+            borderRadius: 4,
+          }}
           onClick={() => {
             setOpenConfigDialog(true);
           }}
@@ -80,14 +99,27 @@ function WeeklyProgrammingSection({ style, idZoneSelected, configZone, chronoCon
     return (
       <Stack
         direction={"row"}
-        sx={{ padding: 1, backgroundColor: "#F2F2F6", borderRadius: 4 }}
+        sx={{
+          padding: 1,
+          backgroundColor: "#F2F2F6",
+          borderRadius: 4,
+          "& > button": {
+            mr: 3,
+          },
+        }}
       >
         {Object.keys(daysConfig).map((day, idx) => (
           <Button
             key={idx}
             disableElevation={true}
-            sx={{ borderRadius: 3, textTransform: "none", fontSize: "1rem" }}
-            variant={day === selectedDay ? "contained" : "text"}
+            sx={{
+              borderRadius: 3,
+              textTransform: "none",
+              fontSize: "1rem",
+              fontWeight: daysConfig[currentDay()].id === day ? "1000" : "inherit",
+              opacity: selectedDay === day ? 1 : 0.5, // Opacity is set to 1 for the current day, and 0.5 for other days
+            }}
+            variant={selectedDay === day ? "contained" : "text"}
             onClick={() => {
               changeSelectedDay(day);
             }}
@@ -101,12 +133,13 @@ function WeeklyProgrammingSection({ style, idZoneSelected, configZone, chronoCon
 
   const multipleSection = {
     first: {
-    
+      
       title: "Cronotermostato",
       subTitle: "Programmazione Settimanale",
       component: (
         <Stack mt={5} height={370} width={"100%"}>
           <WeeklyChart
+            idDay={selectedDay}
             dailySchedule={dailySchedule}
             workModeConfig={workModeConfig}
           />
@@ -117,7 +150,7 @@ function WeeklyProgrammingSection({ style, idZoneSelected, configZone, chronoCon
     },
     second: {
       component: <Termosato />,
-      width: '40%',
+      width: "30%",
       resizable: true,
     },
   };
@@ -152,10 +185,8 @@ const mapStateToProps = ({ Chrono, App }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateDailyScehdule: (idZone, idDay, schedule) => dispatch(updateDailyScehdule(idZone, idDay, schedule)),
+  updateDailyScehdule: (idZone, idDay, schedule) =>
+    dispatch(updateDailyScehdule(idZone, idDay, schedule)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WeeklyProgrammingSection);
+export default connect(mapStateToProps, mapDispatchToProps)(WeeklyProgrammingSection);

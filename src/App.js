@@ -1,8 +1,10 @@
-/* Redux */
+import React from "react";
 import { Provider } from "react-redux";
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { ThemeProvider, CssBaseline, Typography } from "@mui/material";
+import { createTheme, styled } from "@mui/material/styles";
 import { orange } from "@mui/material/colors";
-import store from "./store"
+import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
+import store from "./store";
 import Startup from "./Startup";
 
 const theme = createTheme({
@@ -11,14 +13,15 @@ const theme = createTheme({
   },
 });
 
-function App() {
 
+function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <CssBaseline>
+        <CssBaseline />
+        
           <Startup />
-        </CssBaseline>
+        
       </ThemeProvider>
     </Provider>
   );

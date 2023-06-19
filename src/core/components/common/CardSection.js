@@ -3,7 +3,7 @@ import React from "react";
 
 const SingleSection = ({ title, subTitle, rightHeader, children }) => (
   <Stack height="100%">
-    <Stack direction="row" justifyContent="space-between">
+    <Stack direction="row" justifyContent="space-evenly">
       <Stack>
         <Typography variant="h6" color="text.secondary" component="div">
           {title}
@@ -20,7 +20,7 @@ const SingleSection = ({ title, subTitle, rightHeader, children }) => (
 
 function CardSection({ title, subTitle, rightHeader, children, multipleSection = null }) {
   return (
-    <Paper sx={{ padding: 4, borderRadius: 5, height: "100%" }}>
+    <Paper sx={{ padding: 4, borderRadius: 5, height: "100%",  }}>
       {!multipleSection ? (
         <SingleSection title={title} subTitle={subTitle} rightHeader={rightHeader}>
           {children}
@@ -37,7 +37,7 @@ function CardSection({ title, subTitle, rightHeader, children, multipleSection =
             </SingleSection>
           </Stack>
           <Divider orientation="vertical" flexItem sx={{ marginX: 2 }} />
-          <Stack width={multipleSection.second?.width || '100%'} sx={{ padding: '16px', marginTop: '100px', marginBottom: '20px' }}>
+          <Stack width={multipleSection.second?.width || '100%'} sx={{ display: 'flex', flexDirection: 'column-reverse' }}>
             <SingleSection
               title={multipleSection.second.title}
               subTitle={multipleSection.second.subTitle}

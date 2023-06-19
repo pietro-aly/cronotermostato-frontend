@@ -42,9 +42,14 @@ const Termostato = ({ selectedZone, chronoConfig }) => {
 
           setCurrentWorkMode(workMode);
           setSetPoint(setPoint);
+
+          const currentWorkModeConfig = chronoConfig.workMode[workMode];
+          const workModeColor = currentWorkModeConfig ? currentWorkModeConfig.color : "#000000";
+          setWorkModeColor(workModeColor);
         } else {
           setCurrentWorkMode("");
           setSetPoint(null);
+          setWorkModeColor("#000000");
         }
       }
     }
@@ -62,21 +67,31 @@ const Termostato = ({ selectedZone, chronoConfig }) => {
   };
 
   return (
-    <Stack spacing={2} justifyContent="center" alignItems="center" style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 700, color: "gray" }}>
-      <Typography>Data e ora attuali:</Typography>
-      <Typography variant="h4" style={{ color: "black", fontWeight: "bold" }}>{currentDateTime}</Typography>
-   
+    <Stack spacing={2} justifyContent="center" alignItems="center" style={{
+      fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+      fontWeight: 700,
+      color: "gray",
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignContent: 'center',
+      flexWrap: 'nowrap',
+      marginTop: "30px",
+    }}>
+      <Typography mb={1}>Data e ora attuali:</Typography>
+      <Typography variant="h4" style={{ color: "black", fontWeight: "bold" }} mb={2}>{currentDateTime}</Typography>
+  
       {currentWorkMode && (
-        <> 
-          <Typography style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 700, color: "gray" }}>Stato attuale:</Typography>
-          <Typography variant="h4" style={{ color: workModeColor, fontWeight: "bold", textTransform: "uppercase" }}>{currentWorkMode}</Typography>
+        <>
+          <Typography mb={1} style={{marginTop:"100px", fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 700, color: "gray" }}>Stato attuale:</Typography>
+          <Typography variant="h4" style={{ color: workModeColor, fontWeight: "bold", textTransform: "uppercase" }} mb={2}>{currentWorkMode}</Typography>
         </>
       )}
-
+  
       {setPoint !== null && (
         <>
-          <Typography style={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 700, color: "gray" }}>Temp. da raggiungere:</Typography>
-          <Typography variant="h4" style={{ color: "black", fontWeight: "bold" }}>
+          <Typography mb={1} style={{marginTop:"100px", fontFamily: "Roboto, Helvetica, Arial, sans-serif", fontWeight: 700, color: "gray" }}>Temp. da raggiungere:</Typography>
+          <Typography variant="h4" style={{ color: "black", fontWeight: "bold" }} mb={2}>
             <DeviceThermostatIcon /> {setPoint} °C
           </Typography>
         </>
