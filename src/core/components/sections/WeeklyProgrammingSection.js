@@ -116,7 +116,6 @@ function WeeklyProgrammingSection({ style, idZoneSelected, configZone, chronoCon
       resizable: true,
     },
     second: {
-    
       component: <Termosato />,
       width: '40%',
       resizable: true,

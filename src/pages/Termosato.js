@@ -42,14 +42,9 @@ const Termostato = ({ selectedZone, chronoConfig }) => {
 
           setCurrentWorkMode(workMode);
           setSetPoint(setPoint);
-
-          const currentWorkModeConfig = chronoConfig.workMode[workMode];
-          const workModeColor = currentWorkModeConfig ? currentWorkModeConfig.color : "#000000";
-          setWorkModeColor(workModeColor);
         } else {
           setCurrentWorkMode("");
           setSetPoint(null);
-          setWorkModeColor("#000000");
         }
       }
     }
